@@ -1,0 +1,4 @@
+ENV = local
+PORT = 3000
+DB_URI = dburl
+SHOW_DOCS = true
