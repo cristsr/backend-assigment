@@ -7,7 +7,13 @@ import { ENV } from 'environment';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
+        type: configService.get<any>(ENV.DB_TYPE),
         url: configService.get(ENV.DB_URI),
+        synchronize: configService.get(ENV.DB_SYNCHRONIZE),
+        autoLoadEntities: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
       inject: [ConfigService],
     }),

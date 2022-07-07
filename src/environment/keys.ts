@@ -11,7 +11,14 @@ export class Environment {
   PORT: number = null;
 
   @IsString()
+  DB_TYPE: string = null;
+
+  @IsString()
   DB_URI: string = null;
+
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean()
+  DB_SYNCHRONIZE: boolean = null;
 
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
