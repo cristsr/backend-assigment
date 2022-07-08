@@ -25,6 +25,7 @@ Code Challenge para candidatos Backend para DocRed.
       </ul>
     </li>
     <li><a href="#despliegue">📦 Despliegue y Testing</a></li>
+    <li><a href="#documentación">📄 Documentación</a></li>
   </ol>
 </details>
 
