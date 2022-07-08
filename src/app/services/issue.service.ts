@@ -46,7 +46,10 @@ export class IssueService {
 
     if (!agent) {
       this.#logger.log(`No free agents available`);
-      return issue;
+      return {
+        ...issue,
+        agent: issue.agent && omit(issue.agent, ['status']),
+      } as IssueEntity;
     }
 
     this.#logger.log(`Assign issue ${issue.id} to agent ${agent.id}`);
@@ -61,7 +64,10 @@ export class IssueService {
       status: IssueStatus.inProgress,
     });
 
-    return issue;
+    return {
+      ...issue,
+      agent: issue.agent && omit(issue.agent, ['status']),
+    } as IssueEntity;
   }
 
   async findAll() {
@@ -71,7 +77,7 @@ export class IssueService {
 
     return issues.map((data) => ({
       ...data,
-      agent: omit(data.agent, ['status']),
+      agent: data.agent && omit(data.agent, ['status']),
     }));
   }
 
