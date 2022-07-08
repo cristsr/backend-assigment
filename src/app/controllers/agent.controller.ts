@@ -1,12 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AgentReq } from 'app/dto';
 import { AgentService } from 'app/services';
-import {
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AgentEntity } from 'app/entities';
 
 @ApiTags('Agent')
@@ -17,24 +12,16 @@ export class AgentController {
   @ApiOperation({
     description: 'Create Agent',
   })
-  @ApiCreatedResponse({
-    description: 'The issue has been successfully created.',
-    type: AgentEntity,
-  })
   @Post()
-  create(@Body() data: AgentReq) {
+  create(@Body() data: AgentReq): Promise<AgentEntity> {
     return this.agentService.create(data);
   }
 
   @ApiOperation({
     description: 'Find all agents',
   })
-  @ApiOkResponse({
-    description: 'The agent list has been successfully found.',
-    type: [AgentEntity],
-  })
   @Get()
-  findAll() {
+  findAll(): Promise<AgentEntity[]> {
     return this.agentService.findAll();
   }
 }

@@ -11,11 +11,11 @@ export class AgentService {
     private agentRepository: Repository<AgentEntity>,
   ) {}
 
-  create(data: AgentReq) {
+  create(data: AgentReq): Promise<AgentEntity> {
     return this.agentRepository.save(data);
   }
 
-  findAll() {
+  findAll(): Promise<AgentEntity[]> {
     return this.agentRepository.find();
   }
 }

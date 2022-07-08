@@ -24,7 +24,7 @@ export class IssueService {
     private agentRepository: Repository<AgentEntity>,
   ) {}
 
-  async create(data: IssueReq) {
+  async create(data: IssueReq): Promise<IssueEntity> {
     // Find a free agent
     const agent = await this.agentRepository.findOne({
       where: {
@@ -46,7 +46,7 @@ export class IssueService {
 
     if (!agent) {
       this.#logger.log(`No free agents available`);
-      return;
+      return issue;
     }
 
     this.#logger.log(`Assign issue ${issue.id} to agent ${agent.id}`);
@@ -60,6 +60,8 @@ export class IssueService {
     await this.issueRepository.update(issue.id, {
       status: IssueStatus.inProgress,
     });
+
+    return issue;
   }
 
   async findAll() {
@@ -73,7 +75,7 @@ export class IssueService {
     }));
   }
 
-  findByAgent(agentId: number) {
+  findByAgent(agentId: number): Promise<IssueEntity[]> {
     return this.issueRepository.find({
       where: {
         agent: {
@@ -83,7 +85,11 @@ export class IssueService {
     });
   }
 
-  async update(issueId: number, agentId: number, data: UpdateIssueReq) {
+  async update(
+    issueId: number,
+    agentId: number,
+    data: UpdateIssueReq,
+  ): Promise<void> {
     // Find the issue or throw an error
     const issue = await this.issueRepository
       .findOneByOrFail({
@@ -121,7 +127,7 @@ export class IssueService {
     // Update the issue
     await this.issueRepository.update(issueId, data);
 
-    if (data.status === 'resolved') {
+    if (data.status === IssueStatus.resolved) {
       // Find issue to assign agent
       const issue = await this.issueRepository.findOne({
         where: {

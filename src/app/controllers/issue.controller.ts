@@ -7,50 +7,44 @@ import {
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IssueService } from 'app/services';
 import { UpdateIssueReq, IssueReq } from 'app/dto';
-import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiInternalServerErrorResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { IssueEntity } from 'app/entities';
 
 @ApiTags('Issues')
 @Controller('issue')
 export class IssueController {
-  constructor(private readonly supportService: IssueService) {}
+  constructor(private readonly issueService: IssueService) {}
 
   @ApiOperation({
     description: 'Create Issue',
   })
-  @ApiCreatedResponse({
-    description: 'The issue has been successfully created.',
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'Unexpected error',
-  })
-  @ApiBody({
-    type: IssueReq,
-  })
   @Post()
   create(@Body() data: IssueReq) {
-    return this.supportService.create(data);
+    return this.issueService.create(data);
   }
 
+  @ApiOperation({
+    description: 'Find all issues',
+  })
   @Get()
   findAll() {
-    return this.supportService.findAll();
+    return this.issueService.findAll();
   }
 
+  @ApiOperation({
+    description: 'Find issues by agent',
+  })
   @Get('/agent/:id')
-  findByAgent(@Param('id', ParseIntPipe) agentId: number) {
-    return this.supportService.findByAgent(agentId);
+  findByAgent(
+    @Param('id', ParseIntPipe) agentId: number,
+  ): Promise<IssueEntity[]> {
+    return this.issueService.findByAgent(agentId);
   }
 
-  @ApiBody({
-    type: UpdateIssueReq,
+  @ApiOperation({
+    description: 'Update issue',
   })
   @Patch(':issueId/agent/:agentId')
   update(
@@ -58,6 +52,6 @@ export class IssueController {
     @Param('agentId', ParseIntPipe) agentId: number,
     @Body() data: UpdateIssueReq,
   ) {
-    return this.supportService.update(issueId, agentId, data);
+    return this.issueService.update(issueId, agentId, data);
   }
 }

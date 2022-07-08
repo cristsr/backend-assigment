@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "environment": ["./src/environment"],
+      "testing/*": ["./src/testing/*"],
       "database": ["./src/database"],
       "app/*": ["./src/app/*"],
     }
