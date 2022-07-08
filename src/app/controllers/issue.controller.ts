@@ -5,19 +5,38 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { IssueService } from 'app/services';
-import { CreateSupportDto } from '../dto/create-support.dto';
-import { UpdateSupportDto } from '../dto/update-support.dto';
+import { UpdateIssueReq, IssueReq } from 'app/dto';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
-@Controller('support')
+@ApiTags('Issues')
+@Controller('issue')
 export class IssueController {
   constructor(private readonly supportService: IssueService) {}
 
+  @ApiOperation({
+    description: 'Create Issue',
+  })
+  @ApiCreatedResponse({
+    description: 'The issue has been successfully created.',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Unexpected error',
+  })
+  @ApiBody({
+    type: IssueReq,
+  })
   @Post()
-  create(@Body() createSupportDto: CreateSupportDto) {
-    return this.supportService.create(createSupportDto);
+  create(@Body() data: IssueReq) {
+    return this.supportService.create(data);
   }
 
   @Get()
@@ -25,18 +44,20 @@ export class IssueController {
     return this.supportService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.supportService.findOne(+id);
+  @Get('/agent/:id')
+  findByAgent(@Param('id', ParseIntPipe) agentId: number) {
+    return this.supportService.findByAgent(agentId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSupportDto: UpdateSupportDto) {
-    return this.supportService.update(+id, updateSupportDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.supportService.remove(+id);
+  @ApiBody({
+    type: UpdateIssueReq,
+  })
+  @Patch(':issueId/agent/:agentId')
+  update(
+    @Param('issueId', ParseIntPipe) issueId: number,
+    @Param('agentId', ParseIntPipe) agentId: number,
+    @Body() data: UpdateIssueReq,
+  ) {
+    return this.supportService.update(issueId, agentId, data);
   }
 }

@@ -15,8 +15,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  app.enableVersioning();
-
   const showDocs: boolean = configService.get(ENV.SHOW_DOCS);
 
   if (showDocs) {

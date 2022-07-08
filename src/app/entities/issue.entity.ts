@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { IssueStatus } from '../types';
 import { AgentEntity } from './agent.entity';
-import { UserEntity } from './user.entity';
+// import { UserEntity } from './user.entity';
 
 @Entity('issues')
 export class IssueEntity {
@@ -27,10 +27,12 @@ export class IssueEntity {
   })
   status: IssueStatus;
 
-  @ManyToOne(() => UserEntity, (user) => user.issues)
-  user: UserEntity;
+  // @ManyToOne(() => UserEntity, (user) => user.issues)
+  // user: UserEntity;
 
-  @ManyToOne(() => AgentEntity, (agent) => agent.issues)
+  user: string;
+
+  @ManyToOne(() => AgentEntity, (agent) => agent.issues, { nullable: true })
   @JoinColumn()
   agent: AgentEntity;
 }
