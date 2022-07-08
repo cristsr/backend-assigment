@@ -89,7 +89,7 @@ Para el correcto funcionamiento de la aplicación se deben definir las siguiente
 
 ### Configuración de variables de entorno
 
-En la raiz del proyecto se encuentra el archivo **.envexample** el cual se debe duplicar o copiar en un archivo nuevo
+En la raíz del proyecto se encuentra el archivo **.envexample** el cual se debe duplicar o copiar en un archivo nuevo
 que se debe llamar **.env**
 
 En windows:
@@ -123,3 +123,7 @@ Para acceder a la documentación se debe ingresar a la url **http://localhost:PO
 > 🚧 Nota
 >
 > Reemplazar "**PORT**" por el valor de la variable de entorno **PORT**
+
+Adicional se generó la documentación de la api con [Documenter](https://documenter.getpostman.com/view/5594760/UzJMqaig)
+
+También puede importar la colección: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fc3015c63b15532d45d3?action=collection%2Fimport#?env%5Bdocred-backend-assigment-localhost%5D=W3sia2V5IjoiYXBpX3VybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsInNlc3Npb25JbmRleCI6MH0seyJrZXkiOiJhZ2VudF9pZCIsInZhbHVlIjoiMiIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6IjIiLCJzZXNzaW9uSW5kZXgiOjF9LHsia2V5IjoiaXNzdWVfaWQiLCJ2YWx1ZSI6IjEyIiwiZW5hYmxlZCI6dHJ1ZSwic2Vzc2lvblZhbHVlIjoiMTIiLCJzZXNzaW9uSW5kZXgiOjJ9XQ==) 
