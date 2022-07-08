@@ -114,3 +114,11 @@ Ejecutar `npm run start` en la terminal para iniciar la aplicación.
 
 ### Testing
 Ejecutar `npm run test:cov` en la terminal para ejecutar las pruebas unitarias.
+
+## Documentación
+La aplicación se encuentra documentada con [Swagger](https://swagger.io/).
+Para acceder a la documentación se debe ingresar a la url **http://localhost:PORT/docs**               
+
+> 🚧 Nota
+>
+> Reemplazar "**PORT**" por el valor de la variable de entorno **PORT**
