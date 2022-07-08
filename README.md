@@ -53,8 +53,8 @@ para automatizar el proceso - el software que tu vas a construir.
 
 ## Comenzando
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos
-de desarrollo y pruebas._
+Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos
+de desarrollo y pruebas.
 
 ### Pre-requisitos
 
@@ -62,13 +62,13 @@ de desarrollo y pruebas._
 
 ### Instalación
 
-_Clonar el repositorio._
+Clonar el repositorio.
 
 ```sh
 git clone https://github.com/cristsr/backend-assigment
 ```
 
-_Instalar paquetes de NPM._
+Instalar paquetes de NPM.
 
 ```sh
 npm install
