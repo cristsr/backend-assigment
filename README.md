@@ -56,7 +56,7 @@ para automatizar el proceso - el software que tu vas a construir.
 Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos
 de desarrollo y pruebas.
 
-### Pre-requisitos
+### Prerrequisitos
 
 * [NodeJS v14.15.1](https://nodejs.org/en/)
 
@@ -126,4 +126,4 @@ Para acceder a la documentación se debe ingresar a la url **http://localhost:PO
 
 Adicional se generó la documentación de la api con [Documenter](https://documenter.getpostman.com/view/5594760/UzJMqaig)
 
-También puede importar la colección: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fc3015c63b15532d45d3?action=collection%2Fimport#?env%5Bdocred-backend-assigment-localhost%5D=W3sia2V5IjoiYXBpX3VybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsInNlc3Npb25JbmRleCI6MH0seyJrZXkiOiJhZ2VudF9pZCIsInZhbHVlIjoiMiIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6IjIiLCJzZXNzaW9uSW5kZXgiOjF9LHsia2V5IjoiaXNzdWVfaWQiLCJ2YWx1ZSI6IjEyIiwiZW5hYmxlZCI6dHJ1ZSwic2Vzc2lvblZhbHVlIjoiMTIiLCJzZXNzaW9uSW5kZXgiOjJ9XQ==) 
+También puede importar la colección: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fc3015c63b15532d45d3?action=collection%2Fimport#?env%5Bdocred-backend-assigment-localhost%5D=W3sia2V5IjoiYXBpX3VybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaSIsInNlc3Npb25JbmRleCI6MH0seyJrZXkiOiJhZ2VudF9pZCIsInZhbHVlIjoiMiIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6IjIiLCJzZXNzaW9uSW5kZXgiOjF9LHsia2V5IjoiaXNzdWVfaWQiLCJ2YWx1ZSI6IjEyIiwiZW5hYmxlZCI6dHJ1ZSwic2Vzc2lvblZhbHVlIjoiMTIiLCJzZXNzaW9uSW5kZXgiOjJ9LHsia2V5IjoidXNlcl9pZCIsInZhbHVlIjoiMSIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6IjIiLCJzZXNzaW9uSW5kZXgiOjN9XQ==) 
