@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { IssueService } from './issue.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AgentEntity, IssueEntity } from 'app/entities';
+import { AgentEntity, IssueEntity, UserEntity } from 'app/entities';
 import { GenericRepository } from 'testing/utils';
 import { Repository } from 'typeorm';
-import { IssueStatus } from 'app/types';
+import { AgentStatus, IssueStatus } from 'app/types';
 import { BadRequestException } from '@nestjs/common';
 
 describe('IssueService', () => {
@@ -21,6 +21,10 @@ describe('IssueService', () => {
         },
         {
           provide: getRepositoryToken(AgentEntity),
+          useValue: GenericRepository,
+        },
+        {
+          provide: getRepositoryToken(UserEntity),
           useValue: GenericRepository,
         },
       ],
@@ -52,7 +56,7 @@ describe('IssueService', () => {
     const result = await service.create({
       description: 'test',
       title: 'test',
-      user: 'test',
+      user: 1,
     });
 
     expect(result).toBeDefined();
@@ -87,7 +91,7 @@ describe('IssueService', () => {
     const result = await service.create({
       description: 'test',
       title: 'test',
-      user: 'test',
+      user: 1,
     });
 
     expect(result).toBeDefined();
@@ -122,6 +126,30 @@ describe('IssueService', () => {
       .mockReturnValue(Promise.resolve([new IssueEntity()]));
 
     const result = await service.findByAgent(1);
+
+    expect(result).toBeDefined();
+    expect(issueRepositorySpy).toHaveBeenCalled();
+  });
+
+  it('should call findByUser method', async () => {
+    const issueRepository: Repository<IssueEntity> = module.get(
+      getRepositoryToken(IssueEntity),
+    );
+
+    const issueEntity = new IssueEntity();
+    issueEntity.user = new UserEntity();
+
+    const agentEntity = new AgentEntity();
+    agentEntity.id = 1;
+    agentEntity.status = AgentStatus.free;
+
+    issueEntity.agent = agentEntity;
+
+    const issueRepositorySpy = jest
+      .spyOn(issueRepository, 'find')
+      .mockReturnValue(Promise.resolve([issueEntity]));
+
+    const result = await service.findByUser(1);
 
     expect(result).toBeDefined();
     expect(issueRepositorySpy).toHaveBeenCalled();

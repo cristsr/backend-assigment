@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IssueReq, UpdateIssueReq } from 'app/dto';
-import { AgentEntity, IssueEntity } from 'app/entities';
+import { AgentEntity, IssueEntity, UserEntity } from 'app/entities';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AgentStatus, IssueStatus } from 'app/types';
@@ -22,6 +22,9 @@ export class IssueService {
 
     @InjectRepository(AgentEntity)
     private agentRepository: Repository<AgentEntity>,
+
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
   ) {}
 
   async create(data: IssueReq): Promise<IssueEntity> {
@@ -36,7 +39,19 @@ export class IssueService {
     const issue = await this.issueRepository
       .save({
         ...data,
+        user: data.user as any,
         agent,
+        status: agent ? IssueStatus.inProgress : IssueStatus.created,
+      })
+      .then(async (issue) => {
+        const user = await this.userRepository.findOneByOrFail({
+          id: data.user,
+        });
+
+        return {
+          ...issue,
+          user,
+        };
       })
       .catch((err) => {
         throw new InternalServerErrorException(err.message);
@@ -59,11 +74,6 @@ export class IssueService {
       status: AgentStatus.busy,
     });
 
-    // Update the issue status
-    await this.issueRepository.update(issue.id, {
-      status: IssueStatus.inProgress,
-    });
-
     return {
       ...issue,
       agent: issue.agent && omit(issue.agent, ['status']),
@@ -72,7 +82,7 @@ export class IssueService {
 
   async findAll() {
     const issues = await this.issueRepository.find({
-      relations: ['agent'],
+      relations: ['agent', 'user'],
     });
 
     return issues.map((data) => ({
@@ -81,14 +91,36 @@ export class IssueService {
     }));
   }
 
-  findByAgent(agentId: number): Promise<IssueEntity[]> {
+  findByAgent(agentId: number, status?: IssueStatus): Promise<IssueEntity[]> {
     return this.issueRepository.find({
+      relations: ['user'],
       where: {
         agent: {
           id: agentId,
         },
+        status,
       },
     });
+  }
+
+  async findByUser(
+    userId: number,
+    status?: IssueStatus,
+  ): Promise<IssueEntity[]> {
+    const issues = await this.issueRepository.find({
+      relations: ['agent'],
+      where: {
+        user: {
+          id: userId,
+        },
+        status,
+      },
+    });
+
+    return issues.map(({ agent, ...data }) => ({
+      ...data,
+      agent: agent && omit(agent, ['status']),
+    })) as IssueEntity[];
   }
 
   async update(
@@ -130,11 +162,12 @@ export class IssueService {
         throw new NotFoundException(e.message);
       });
 
-    // Update the issue
+    // Update the issue status
     await this.issueRepository.update(issueId, data);
 
+    // If the issue status is resolved, try assign a new issue to the agent
     if (data.status === IssueStatus.resolved) {
-      // Find issue to assign agent
+      // Find created issue to assign agent
       const issue = await this.issueRepository.findOne({
         where: {
           status: IssueStatus.created,

@@ -19,6 +19,7 @@ describe('IssueController', () => {
             create: jest.fn(),
             findAll: jest.fn(),
             findByAgent: jest.fn(),
+            findByUser: jest.fn(),
             update: jest.fn(),
           },
         },
@@ -38,7 +39,7 @@ describe('IssueController', () => {
     entity.status = IssueStatus.created;
     entity.title = 'test';
     entity.description = 'test';
-    entity.user = 'test';
+    entity.user = { id: 1 } as any;
 
     const issueService = module.get(IssueService);
 
@@ -49,7 +50,7 @@ describe('IssueController', () => {
     const result = await controller.create({
       title: 'test',
       description: 'test',
-      user: 'test',
+      user: 1,
     });
 
     expect(result).toEqual(entity);
@@ -62,7 +63,7 @@ describe('IssueController', () => {
     entity.status = IssueStatus.created;
     entity.title = 'test';
     entity.description = 'test';
-    entity.user = 'test';
+    entity.user = { id: 1 } as any;
 
     const issueService = module.get(IssueService);
 
@@ -82,7 +83,7 @@ describe('IssueController', () => {
     entity.status = IssueStatus.created;
     entity.title = 'test';
     entity.description = 'test';
-    entity.user = 'test';
+    entity.user = { id: 1 } as any;
 
     const issueService = module.get(IssueService);
 
@@ -90,7 +91,27 @@ describe('IssueController', () => {
       .spyOn(issueService, 'findByAgent')
       .mockReturnValue(Promise.resolve([entity]));
 
-    const result = await controller.findByAgent(1);
+    const result = await controller.findByAgent(1, { status: null });
+
+    expect(result).toEqual([entity]);
+    expect(issueServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should call findByUser method', async () => {
+    const entity = new IssueEntity();
+    entity.id = 1;
+    entity.status = IssueStatus.created;
+    entity.title = 'test';
+    entity.description = 'test';
+    entity.user = { id: 1 } as any;
+
+    const issueService = module.get(IssueService);
+
+    const issueServiceSpy = jest
+      .spyOn(issueService, 'findByUser')
+      .mockReturnValue(Promise.resolve([entity]));
+
+    const result = await controller.findByUser(1, { status: null });
 
     expect(result).toEqual([entity]);
     expect(issueServiceSpy).toHaveBeenCalled();

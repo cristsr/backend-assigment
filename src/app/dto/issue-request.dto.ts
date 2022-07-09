@@ -1,5 +1,5 @@
-import { IsIn, IsString } from 'class-validator';
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsEnum, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { IssueStatus } from 'app/types';
 
 export class IssueReq {
@@ -12,12 +12,19 @@ export class IssueReq {
   description: string;
 
   @ApiProperty()
-  @IsString()
-  user: string;
+  @IsNumber()
+  user: number;
 }
 
-export class UpdateIssueReq extends PartialType(IssueReq) {
+export class UpdateIssueReq {
   @ApiProperty()
   @IsIn([IssueStatus.inProgress, IssueStatus.resolved])
+  status: IssueStatus;
+}
+
+export class IssueQuery {
+  @ApiProperty()
+  @IsOptional()
+  @IsEnum(IssueStatus)
   status: IssueStatus;
 }

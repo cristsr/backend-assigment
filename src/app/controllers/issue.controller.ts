@@ -6,10 +6,11 @@ import {
   Patch,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IssueService } from 'app/services';
-import { UpdateIssueReq, IssueReq } from 'app/dto';
+import { UpdateIssueReq, IssueReq, IssueQuery } from 'app/dto';
 import { IssueEntity } from 'app/entities';
 
 @ApiTags('Issues')
@@ -39,8 +40,20 @@ export class IssueController {
   @Get('/agent/:id')
   findByAgent(
     @Param('id', ParseIntPipe) agentId: number,
+    @Query() { status }: IssueQuery,
   ): Promise<IssueEntity[]> {
-    return this.issueService.findByAgent(agentId);
+    return this.issueService.findByAgent(agentId, status);
+  }
+
+  @ApiOperation({
+    description: 'Find issues by user',
+  })
+  @Get('/user/:id')
+  findByUser(
+    @Param('id', ParseIntPipe) userId: number,
+    @Query() { status }: IssueQuery,
+  ): Promise<IssueEntity[]> {
+    return this.issueService.findByUser(userId, status);
   }
 
   @ApiOperation({

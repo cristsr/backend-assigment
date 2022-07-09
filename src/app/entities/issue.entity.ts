@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { AgentEntity } from 'app/entities';
+import { AgentEntity, UserEntity } from 'app/entities';
 import { IssueStatus } from 'app/types';
 
 @Entity('issues')
@@ -32,8 +32,9 @@ export class IssueEntity {
   status: IssueStatus;
 
   @ApiProperty()
-  @Column({ nullable: true })
-  user: string;
+  @ManyToOne(() => UserEntity, (user) => user.issues, { nullable: true })
+  @JoinColumn()
+  user: UserEntity;
 
   @ApiProperty()
   @ManyToOne(() => AgentEntity, (agent) => agent.issues, { nullable: true })
